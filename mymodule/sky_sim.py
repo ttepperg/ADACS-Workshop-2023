@@ -22,19 +22,19 @@ RA = '00:42:44.3'
 DEC = '41:16:09'
 NUM_STARS = 1_000  # _000 # underscores are stripped out by interpreter
 
-def get_radec(RA,DEC):
+def get_radec(ra:float,dec:float) -> (float,float): # using typing
     '''
-    Calculate the right-ascencion and declination in degrees
-    :param RA: right-ascencion in (h,m,s)
-    :param DEC: declination in (d,m,s)
+    Calculate the right-ascension and declination in degrees
+    :param RA (float): right-ascension in (h,m,s)
+    :param DEC (float): declination in (d,m,s)
     :return: 2-tuple with ra and dec in degrees
     '''
-    d, m, s = DEC.split(':')
-    dec = int(d) + int(m) / 60 + float(s) / 3600
-    h, m, s = RA.split(':')
-    ra = 15 * (int(h) + int(m) / 60 + float(s) / 3600)
-    ra = ra / math.cos(dec * math.pi / 180)
-    return ra, dec
+    d, m, s = dec.split(':')
+    _dec = int(d) + int(m) / 60 + float(s) / 3600
+    h, m, s = ra.split(':')
+    _ra = 15 * (int(h) + int(m) / 60 + float(s) / 3600)
+    _ra = _ra / math.cos(_dec * math.pi / 180)
+    return _ra, _dec
 
 def make_stars(num,ra,dec):
     '''
@@ -44,24 +44,28 @@ def make_stars(num,ra,dec):
     '''
     ras = []
     decs = []
-    for i in range(num):
+    for dummy in range(num):
         ras.append(ra + random.uniform(-1, 1))
         decs.append(dec + random.uniform(-1, 1))
     return ras, decs
 
 def main():
-    # convert to decimal degrees
+    '''
+    Run the script
+    :return: None
+    '''
+    # convert sky coordinates to decimal degrees
     ra, dec = get_radec(RA,DEC)
 
     # generate ensemble of stars within 1 degree of Andromeda
     ras, decs = make_stars(NUM_STARS,ra,dec)
 
     # now write these to a csv file for use by my other program
-    f = open('../data/catalog.csv', 'w', encoding='ascii')
-    print("id,ra,dec", file=f)
+    f_name = open('../data/catalog.csv', 'w', encoding='ascii')
+    print("id,ra,dec", file=f_name)
     for i in range(NUM_STARS):
-        print(f"{i:07d}, {ras[i]:12f}, {decs[i]:12f}", file=f)
-    f.close()
+        print(f"{i:07d}, {ras[i]:12f}, {decs[i]:12f}", file=f_name)
+    f_name.close()
 
     # visualise
     plt.scatter(ras[:], decs[:], marker='.', s=2)
@@ -69,4 +73,5 @@ def main():
     plt.ylabel('Dec')
     plt.show()
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    main()
