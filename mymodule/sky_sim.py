@@ -24,16 +24,15 @@ DEC = '41:16:09'
 NUM_STARS = 1_000  # _000 # underscores are stripped out by interpreter
 
 
-def get_radec(ra: str, dec: str) -> (float, float):  # using typing
+# def get_radec(ra: str, dec: str) -> (float, float):  # using typing
+def get_radec():
     """
     Calculate the right-ascension and declination in degrees
-    ra (str): right-ascension in (h,m,s)
-    dec (str): declination in (d,m,s)
     _ra,_dec: 2-tuple with ra and dec in degrees
     """
-    d, m, s = dec.split(':')
+    d, m, s = DEC.split(':')
     _dec = int(d) + int(m) / 60 + float(s) / 3600
-    h, m, s = ra.split(':')
+    h, m, s = RA.split(':')
     _ra = 15 * (int(h) + int(m) / 60 + float(s) / 3600)
     _ra = _ra / math.cos(_dec * math.pi / 180)
     return _ra, _dec
@@ -64,9 +63,9 @@ def skysim_parser():
         The parser for skysim.
     """
     parser = argparse.ArgumentParser(prog='sky_sim', prefix_chars='-')
-    parser.add_argument('--ra', dest = 'ra', type=float, default=None,
+    parser.add_argument('--ra', dest='ra', type=float, default=None,
                         help="Central ra (degrees) for the simulation location")
-    parser.add_argument('--dec', dest = 'dec', type=float, default=None,
+    parser.add_argument('--dec', dest='dec', type=float, default=None,
                         help="Central dec (degrees) for the simulation location")
     parser.add_argument('--out', dest='out', type=str, default='catalog.csv',
                         help='destination for the output catalog')
@@ -85,7 +84,7 @@ def main():
     options = parser.parse_args()
     # if ra/dec are not supplied the use a default value
     if None in [options.ra, options.dec]:
-        ra, dec = get_radec(RA, DEC)
+        ra, dec = get_radec()
     else:
         ra = options.ra
         dec = options.dec
