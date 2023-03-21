@@ -10,3 +10,11 @@ About: Create a synthetic sky catalogue where:
 - Positions should fall within 1 degree of the central location
 - Each star should have a unique ID
 - The star ID and position should be saved in a csv file to be analyzed by other programs
+
+
+## Documentation
+
+Created with pdoc (installed via pip):
+
+    e.g. $> pdoc -o docs mymodule/sky_sim.py
+
