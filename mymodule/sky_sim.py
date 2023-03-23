@@ -15,13 +15,13 @@ About: Create a synthetic sky catalogue where:
 import math
 import random
 import argparse
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # Determine Andromeda location in ra/dec degrees
 # from wikipedia
 RA = '00:42:44.3'
 DEC = '41:16:09'
-NUM_STARS = 1_000  # _000 # underscores are stripped out by interpreter
+NUM_STARS = 1_000_000 # underscores are stripped out by interpreter
 
 
 # def get_radec(ra: str, dec: str) -> (float, float):  # using typing
@@ -101,11 +101,11 @@ def main():
         print(f"{i:07d}, {ras[i]:12f}, {decs[i]:12f}", file=f_name)
     f_name.close()
 
-    # visualise
-    plt.scatter(ras[:], decs[:], marker='.', s=2)
-    plt.xlabel('RA (deg)')
-    plt.ylabel('Dec (deg)')
-    plt.show()
+    # # visualise
+    # plt.scatter(ras[:], decs[:], marker='.', s=2)
+    # plt.xlabel('RA (deg)')
+    # plt.ylabel('Dec (deg)')
+    # plt.show()
 
 
 if __name__ == '__main__':
